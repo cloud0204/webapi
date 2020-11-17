@@ -39,10 +39,9 @@
         </ul>
       </div>
       <iframe
-        v-if="authorization"
+        v-if="IframeId"
         :src="`https://widget.kkbox.com/v1/?id=${
-          IframeId ? IframeId : 'DZyUyh2qM7EsrV8vKB'
-        }&type=song&terr=TW&lang=EN&autoplay=true`"
+          IframeId}&type=song&terr=TW&lang=EN&autoplay=true`"
         frameborder="0"
       ></iframe>
     </section>
@@ -100,16 +99,6 @@ export default {
         client_id: "5a1c4b94d2453a8232bc343594ce44be",
         client_secret: "ff69b3f05f46ec05118523a0e99808a5",
       };
-
-      // this.$http
-      //   .post(
-      //     "/token",
-      //     qs.stringify(oauth),
-      //     config
-      //   )
-      //   .then((res) => {
-      //     console.log(res);
-      //   });
 
       await axios
         .post("/token", qs.stringify(oauth), config)
