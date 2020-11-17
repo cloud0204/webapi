@@ -30,18 +30,20 @@
           <div class="title">tracks</div>
           <li
             v-for="item in kkboxData.tracks.data"
-            :key="item.name"
+            :key="item.id"
             @click="getIframeId(item.id)"
           >
-            <img :src="item.album.images[0].url" alt="" width="50" />
-            {{ item.name }} 專輯:{{item.album.name}} /track number:{{ item.track_number }}
+            <img :src="getTrackInfo(item).AlbumImg" alt="" width="50" />
+            {{ getTrackInfo(item).artist }}-{{
+              getTrackInfo(item).TrackName
+            }}
+            專輯:{{ getTrackInfo(item).AlbumName }}
           </li>
         </ul>
       </div>
-      <iframe
+      <iframe 
         v-if="IframeId"
-        :src="`https://widget.kkbox.com/v1/?id=${
-          IframeId}&type=song&terr=TW&lang=EN&autoplay=true`"
+        :src="`https://widget.kkbox.com/v1/?id=${IframeId}&type=song&terr=TW&lang=EN&autoplay=true`" allow="autoplay"
         frameborder="0"
       ></iframe>
     </section>
@@ -135,7 +137,17 @@ export default {
     getIframeId(id) {
       this.IframeId = id;
     },
+    getTrackInfo({ id, name, album }) {
+      return {
+        id: id,
+        TrackName: name,
+        AlbumName: album.name,
+        AlbumImg: album.images[0].url,
+        artist: album.artist.name,
+      };
+    },
   },
+  computed: {},
   created() {
     this.GetToken();
   },
