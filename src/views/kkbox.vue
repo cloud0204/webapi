@@ -8,6 +8,7 @@
         id=""
         value="search keywords"
         v-model="InputSearch.keywords"
+        required
       />
       <select name="" id="" required v-model="InputSearch.area">
         <option value="HK">HK</option>
@@ -31,7 +32,7 @@
           <li
             v-for="item in kkboxData.tracks.data"
             :key="item.id"
-            @click="getIframeId(item.id)"
+            @click="PlayIframeId(item.id, (type = 'song'))"
           >
             <img :src="getTrackInfo(item).AlbumImg" alt="" width="50" />
             {{ getTrackInfo(item).artist }}-{{
@@ -41,9 +42,10 @@
           </li>
         </ul>
       </div>
-      <iframe 
+      <iframe
         v-if="IframeId"
-        :src="`https://widget.kkbox.com/v1/?id=${IframeId}&type=song&terr=TW&lang=EN&autoplay=true`" allow="autoplay"
+        :src="`https://widget.kkbox.com/v1/?id=${IframeId}&type=${IframeType}&terr=TW&lang=EN&autoplay=true`"
+        allow="autoplay"
         frameborder="0"
       ></iframe>
     </section>
@@ -86,6 +88,7 @@ export default {
       },
       kkboxData: "",
       IframeId: "",
+      IframeType: "",
     };
   },
   methods: {
@@ -113,13 +116,13 @@ export default {
         });
       // this.GetSearch();
     },
-    GetSearch({ keywords, area, type }) {
+    async GetSearch({ keywords, area, type }) {
       const config = {
         headers: {
           Authorization: this.authorization,
         },
       };
-      axios
+      await axios
         .get(
           `https://api.kkbox.com/v1.1/search?q=${keywords}${
             type ? `&type=${type}` : ""
@@ -134,8 +137,9 @@ export default {
           console.log(err);
         });
     },
-    getIframeId(id) {
+    PlayIframeId(id, type) {
       this.IframeId = id;
+      this.IframeType = type;
     },
     getTrackInfo({ id, name, album }) {
       return {
