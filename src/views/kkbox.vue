@@ -223,9 +223,9 @@ export default {
       };
     },
   },
-  computed: {},
   created() {
     this.GetToken();
   },
+  watch: {},
 };
 </script>
