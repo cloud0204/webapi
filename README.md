@@ -1,24 +1,14 @@
-# kkapi
+# webapi kkbox api 練習
 
-## Project setup
-```
-npm install
-```
+## 簡介
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+練習串接kkbox api，功能如下:
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1. 搜尋track album artist playlist
+2. 連接撥放
 
-### Lints and fixes files
-```
-npm run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 使用技術
+
+- Vue Cli
+- JavaScript(ES6)

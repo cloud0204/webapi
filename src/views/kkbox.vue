@@ -32,13 +32,59 @@
           <li
             v-for="item in kkboxData.tracks.data"
             :key="item.id"
-            @click="PlayIframeId(item.id, type = 'song',area=item.available_territories[0])"
+            @click="
+              PlayIframeId(
+                item.id,
+                (type = 'song'),
+                (area = item.available_territories[0])
+              )
+            "
           >
             <img :src="getTrackInfo(item).AlbumImg" alt="" width="50" />
             {{ getTrackInfo(item).artist }}-{{
               getTrackInfo(item).TrackName
             }}
             專輯:{{ getTrackInfo(item).AlbumName }}
+          </li>
+        </ul>
+        <ul v-if="kkboxData.albums">
+          <div class="title">albums</div>
+          <li
+            v-for="item in kkboxData.albums.data"
+            :key="item.id"
+            @click="
+              PlayIframeId(
+                item.id,
+                (type = 'album'),
+                (area = item.available_territories[0])
+              )
+            "
+          >
+            <img :src="getAlbumInfo(item).AlbumImg" alt="" width="50" />
+            {{ getAlbumInfo(item).artist }}
+            專輯:{{ getAlbumInfo(item).AlbumName }}
+          </li>
+        </ul>
+        <ul v-if="kkboxData.artists">
+          <div class="title">artists</div>
+          <li v-for="item in kkboxData.artists.data" :key="item.id">
+            <img :src="getArtistInfo(item).ArtistImg" alt="" width="50" />
+            {{ getArtistInfo(item).ArtistName }}
+            <a :href="item.url" target="_blank" rel="noopener noreferrer"
+              >info</a
+            >
+          </li>
+        </ul>
+        <ul v-if="kkboxData.playlists">
+          <div class="title">playlists</div>
+          <li
+            v-for="item in kkboxData.playlists.data"
+            :key="item.id"
+            @click="PlayIframeId(item.id, (type = 'playlist'), (area = ''))"
+          >
+            <img :src="getPlaylistInfo(item).img" alt="" width="50" />
+            {{ getPlaylistInfo(item).description }}
+            專輯:{{ getPlaylistInfo(item).title }}
           </li>
         </ul>
       </div>
@@ -54,7 +100,8 @@
 
 <style lang="scss">
 section {
-  // display: flex;
+  display: flex;
+  justify-content: center;
   ul {
     .title {
       background-color: green;
@@ -89,7 +136,7 @@ export default {
       kkboxData: "",
       IframeId: "",
       IframeType: "",
-      IframeArea:"",
+      IframeArea: "",
     };
   },
   methods: {
@@ -138,19 +185,41 @@ export default {
           console.log(err);
         });
     },
-    PlayIframeId(id, type,area) {
+    PlayIframeId(id, type, area) {
       this.IframeId = id;
       this.IframeType = type;
-      this.IframeArea=area;
+      this.IframeArea = area;
     },
     getTrackInfo({ id, name, album }) {
       return {
-        id: id,
+        id,
         TrackName: name,
         AlbumName: album.name,
         AlbumImg: album.images[0].url,
         artist: album.artist.name,
-        area:album.available_territories[0]
+      };
+    },
+    getAlbumInfo({ id, name, images, artist }) {
+      return {
+        id,
+        AlbumName: name,
+        AlbumImg: images[0].url,
+        artist: artist.name,
+      };
+    },
+    getArtistInfo({ id, name, images }) {
+      return {
+        id,
+        ArtistName: name,
+        ArtistImg: images[0].url,
+      };
+    },
+    getPlaylistInfo({ id, description, images, title }) {
+      return {
+        id,
+        description,
+        title,
+        img: images[0].url,
       };
     },
   },

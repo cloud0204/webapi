@@ -20,6 +20,6 @@ git commit -m 'deploy'
 #git push -f git@github.com:cloud0204/cloud0204.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:cloud0204/kkapi.git master:gh-pages
+git push -f git@github.com:cloud0204/webapi.git master:gh-pages
 
 cd -
