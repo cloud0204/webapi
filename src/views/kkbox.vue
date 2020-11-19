@@ -32,7 +32,7 @@
           <li
             v-for="item in kkboxData.tracks.data"
             :key="item.id"
-            @click="PlayIframeId(item.id, (type = 'song'))"
+            @click="PlayIframeId(item.id, type = 'song',area=item.available_territories[0])"
           >
             <img :src="getTrackInfo(item).AlbumImg" alt="" width="50" />
             {{ getTrackInfo(item).artist }}-{{
@@ -44,7 +44,7 @@
       </div>
       <iframe
         v-if="IframeId"
-        :src="`https://widget.kkbox.com/v1/?id=${IframeId}&type=${IframeType}&terr=TW&lang=EN&autoplay=true`"
+        :src="`https://widget.kkbox.com/v1/?id=${IframeId}&type=${IframeType}&terr=${IframeArea}&lang=EN&autoplay=true`"
         allow="autoplay"
         frameborder="0"
       ></iframe>
@@ -89,6 +89,7 @@ export default {
       kkboxData: "",
       IframeId: "",
       IframeType: "",
+      IframeArea:"",
     };
   },
   methods: {
@@ -137,9 +138,10 @@ export default {
           console.log(err);
         });
     },
-    PlayIframeId(id, type) {
+    PlayIframeId(id, type,area) {
       this.IframeId = id;
       this.IframeType = type;
+      this.IframeArea=area;
     },
     getTrackInfo({ id, name, album }) {
       return {
@@ -148,6 +150,7 @@ export default {
         AlbumName: album.name,
         AlbumImg: album.images[0].url,
         artist: album.artist.name,
+        area:album.available_territories[0]
       };
     },
   },
