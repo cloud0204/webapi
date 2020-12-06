@@ -4,8 +4,8 @@ module.exports = {
     proxy: {
       '/token': {
         target: 'https://account.kkbox.com/oauth2/token',
-        ws: true,
-        changeOrigin: true,
+        // ws: true,
+        // changeOrigin: true,
       },
     },
   },

@@ -123,11 +123,10 @@ section {
 
 <script>
 import axios from "axios";
-import qs from "querystring";
+
 export default {
   data() {
     return {
-      authorization: "",
       InputSearch: {
         keywords: "",
         area: "",
@@ -139,31 +138,12 @@ export default {
       IframeArea: "",
     };
   },
-  methods: {
-    async GetToken() {
-      const config = {
-        headers: {
-          Accept: "application/x-www-form-urlencoded",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      };
-      const oauth = {
-        grant_type: "client_credentials",
-        client_id: "5a1c4b94d2453a8232bc343594ce44be",
-        client_secret: "ff69b3f05f46ec05118523a0e99808a5",
-      };
-
-      await axios
-        .post("/token", qs.stringify(oauth), config)
-        .then((res) => {
-          console.log(res);
-          this.authorization = `Bearer ${res.data.access_token}`;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      // this.GetSearch();
+  computed: {
+    authorization() {
+      return this.$store.state.authorization;
     },
+  },
+  methods: {
     GetSearch({ keywords, area, type }) {
       const config = {
         headers: {
@@ -224,7 +204,7 @@ export default {
     },
   },
   created() {
-    this.GetToken();
+    this.$store.dispatch("GetToken");
   },
   watch: {},
 };
